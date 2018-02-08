@@ -1,0 +1,102 @@
+#!/bin/bash
+
+
+#takes DOS command as input from user and converts it to unix command
+
+command="command"
+arg1="arg1"
+arg2="arg2"
+arg3="arg3"
+
+getopt() {
+ echo "param is $1"
+ 
+ commandarray=($1)
+ 
+ echo "first word:"
+ echo ${commandarray[0]}
+ echo "second word:"
+ echo ${commandarray[1]}
+ echo "third word:"
+ echo ${commandarray[2]}
+ echo "fourth word:"
+ echo ${commandarray[3]}
+
+ command=${commandarray[0]}
+ arg1=${commandarray[1]}
+ arg2=${commandarray[2]}
+ arg3=${commandarray[3]}
+
+ echo "command is $command"
+ echo "arg1 is $arg1"
+ echo "arg2 is $arg2"
+ echo "arg3 is $arg3"
+}
+
+run="run"
+
+while [ "$run" != "quit" ]
+do
+
+ read -p "Dean> " command
+
+ command="$(tr [A-Z] [a-z] <<< "$command")"
+
+getopt "$command" 
+
+
+# if [ "$command" == "chdir" ]
+# then 
+#  echo "execute cd"
+# elif [ "$command" == "quit" ]
+# then    
+#  run="quit"
+#fi
+
+#echo "$run"
+
+case "$command" in
+ chdir)
+       cd $arg1 
+       ;;
+ cls)
+     clear
+     ;;
+ copy)
+     cp $arg1 $arg2
+     ;;
+ createdir)
+     mkdir $arg1
+     ;;
+ createfile)
+      touch $arg1
+      ;;
+ delete)
+      rm $arg1
+      ;;
+ dir)
+      ls $arg1 $arg2 $arg3
+      ;;
+ move)
+      mv $arg1 $arg2
+      ;;
+ print)
+      echo $arg1
+      ;;
+ quit)
+       run="quit"
+       ;;
+ rename)
+       mv $arg1 $arg2
+       ;;
+ type)
+      cat $arg1
+      ;; 
+ *)
+     echo "command not found"
+     ;;
+esac
+
+echo "$run"
+
+done
